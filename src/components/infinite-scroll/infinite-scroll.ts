@@ -1,5 +1,4 @@
 import { Directive, ElementRef, EventEmitter, Input, NgZone, Output } from '@angular/core';
-
 import { Content, ScrollEvent } from '../content/content';
 import { DomController } from '../../platform/dom-controller';
 import { assert } from '../../util/util';
@@ -145,6 +144,7 @@ export class InfiniteScroll {
   _lastCheck: number = 0;
   _highestY: number = 0;
   _scLsn: any;
+  _escLsn: any;
   _thr: string = '15%';
   _thrPx: number = 0;
   _thrPc: number = 0.15;
@@ -228,11 +228,12 @@ export class InfiniteScroll {
   }
 
   _onScroll(ev: ScrollEvent) {
-    if (this.state === STATE_LOADING || this.state === STATE_DISABLED) {
+    // sometimes ionScroll doesn't return any events, workaround for it
+    if (this.state === STATE_LOADING || this.state === STATE_DISABLED || !ev) {
       return 1;
     }
 
-    if (this._lastCheck + 32 > ev.timeStamp) {
+    if (this._lastCheck + 64 > ev.timeStamp) {
       // no need to check less than every XXms
       return 2;
     }
@@ -335,7 +336,9 @@ export class InfiniteScroll {
       // ******** DOM WRITE ****************
       this._dom.write(() => {
         this._content.scrollTop = newScrollTop;
-        this.state = STATE_ENABLED;
+        this._zone.run(() => {
+          this.state = STATE_ENABLED;
+        });
       });
     });
   }
@@ -369,12 +372,17 @@ export class InfiniteScroll {
   _setListeners(shouldListen: boolean) {
     if (this._init) {
       if (shouldListen) {
-        if (!this._scLsn) {
+        if (!this._scLsn && this._content && !this._content.ionScroll.closed) {
           this._scLsn = this._content.ionScroll.subscribe(this._onScroll.bind(this));
+        }
+        if (!this._escLsn && this._content && !this._content.ionScrollEnd.closed) {
+          this._escLsn = this._content.ionScrollEnd.subscribe(this._onScroll.bind(this));
         }
       } else {
         this._scLsn && this._scLsn.unsubscribe();
         this._scLsn = null;
+        this._escLsn && this._escLsn.unsubscribe();
+        this._escLsn = null;
       }
     }
   }
@@ -396,6 +404,9 @@ export class InfiniteScroll {
    */
   ngOnDestroy() {
     this._setListeners(false);
+    this.ionInfinite.complete();
+    this.ionInfinite.unsubscribe();
+    this._content = this._elementRef = null;
   }
 
 }
