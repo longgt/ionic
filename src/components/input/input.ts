@@ -11,10 +11,8 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
-
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
-
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { App } from '../app/app';
 import { Config } from '../../config/config';
 import { Content, ContentDimensions } from '../content/content';
@@ -127,8 +125,8 @@ import { Platform } from '../../platform/platform';
 
   '<button ion-button *ngIf="_clearInput" clear class="text-input-clear-icon" ' +
     'type="button" ' +
-    '(click)="clearTextInput($event)" ' +
-    '(mousedown)="clearTextInput($event)" ' +
+    '(click)="clearTextInput()" ' +
+    '(mousedown)="clearTextInput()" ' +
     'tabindex="-1"></button>' +
 
   '<div class="input-cover" *ngIf="_useAssist" ' +
@@ -406,7 +404,7 @@ export class TextInput extends BaseInput<string> implements IonicFormInput {
     // TODO: deprecate this
     this.input.emit(ev);
   }
-
+  
   /**
    * @hidden
    */
@@ -546,11 +544,11 @@ export class TextInput extends BaseInput<string> implements IonicFormInput {
     console.debug('Input: enableHideCaretOnScroll');
 
     content.ionScrollStart
-      .takeUntil(this._onDestroy)
+      .pipe(takeUntil(this._onDestroy))
       .subscribe(() => scrollHideCaret(true));
 
     content.ionScrollEnd
-      .takeUntil(this._onDestroy)
+      .pipe(takeUntil(this._onDestroy))
       .subscribe(() => scrollHideCaret(false));
 
     this.ionBlur.subscribe(() => this._relocateInput(false));

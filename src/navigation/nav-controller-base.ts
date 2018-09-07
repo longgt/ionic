@@ -6,7 +6,7 @@ import {
   EventEmitter,
   Input,
   NgZone,
-  ReflectiveInjector,
+  Injector,
   Renderer,
   ViewContainerRef
 } from '@angular/core';
@@ -524,13 +524,13 @@ export class NavControllerBase extends Ion implements NavController {
 
      // render the entering view, and all child navs and views
     // entering view has not been initialized yet
-    const componentProviders = ReflectiveInjector.resolve([
+    const componentProviders = [
       { provide: NavController, useValue: this },
       { provide: ViewController, useValue: enteringView },
       { provide: NavParams, useValue: enteringView.getNavParams() }
-    ]);
+    ];
     const componentFactory = this._linker.resolveComponent(enteringView.component);
-    const childInjector = ReflectiveInjector.fromResolvedProviders(componentProviders, this._viewport.parentInjector);
+    const childInjector = Injector.create(componentProviders, this._viewport.parentInjector);
 
     // create ComponentRef and set it to the entering view
     enteringView.init(componentFactory.create(childInjector, []));
