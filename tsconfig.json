@@ -7,7 +7,7 @@
     "lib": ["dom", "es2015"],
     "module": "commonjs",
     "moduleResolution": "node",
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "dist/tmp",
