@@ -20,9 +20,14 @@ $focus-outline-border-width:   2px !default;
 $focus-outline-box-shadow:     0 0 8px 1px $focus-outline-border-color !default;
 
 
-:focus,
-:active {
-  outline: none;
+//:focus,:active {outline: none;}
+:focus, 
+input:active, 
+textarea:active, 
+select:active, 
+button:active, 
+a:active {
+  outline: none; 
 }
 
 .focus-outline :focus {
