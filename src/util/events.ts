@@ -33,7 +33,7 @@ import { ScrollView } from './scroll-view';
  * @demo /docs/demos/src/events/
  */
 export class Events {
-  private _channels: any = [];
+  private _channels: Function[][] = [];
 
   /**
    * Subscribe to an event topic. Events that get posted to that topic will trigger the provided handler.
@@ -45,8 +45,11 @@ export class Events {
     if (!this._channels[topic]) {
       this._channels[topic] = [];
     }
+
+    let t: Function[] = this._channels[topic];
     handlers.forEach((handler) => {
-      this._channels[topic].push(handler);
+      // Prevent duplicate handler
+      t.indexOf(handler) < 0 && t.push(handler);
     });
   }
 
@@ -59,7 +62,7 @@ export class Events {
    * @return true if a handler was removed
    */
   unsubscribe(topic: string, handler: Function = null) {
-    let t = this._channels[topic];
+    let t: Function[] = this._channels[topic];
     if (!t) {
       // Wasn't found, wasn't removed
       return false;
@@ -71,22 +74,29 @@ export class Events {
       return true;
     }
 
-    // We need to find and remove a specific handler
-    let i = t.indexOf(handler);
+    let i: number;
+    let result: boolean;
 
-    if (i < 0) {
-      // Wasn't found, wasn't removed
-      return false;
-    }
+    // Remove all handlers of this topic which having same reference
+    do {
+      // We need to find and remove a specific handler
+      i = t.indexOf(handler);
 
-    t.splice(i, 1);
+      if (i < 0) {
+        // Wasn't found, wasn't removed
+        break;
+      }
+
+      t.splice(i, 1);
+      result = true;
+    } while (i >= 0 && t.length);
 
     // If the channel is empty now, remove it from the channel map
     if (!t.length) {
       delete this._channels[topic];
     }
 
-    return true;
+    return result;
   }
 
   /**
@@ -95,8 +105,8 @@ export class Events {
    * @param {string} topic the topic to publish to
    * @param {any} eventData the data to send as the event
    */
-  publish(topic: string, ...args: any[]) {
-    var t = this._channels[topic];
+  publish(topic: string, ...args: any[]): any[] {
+    let t: Function[] = this._channels[topic];
     if (!t) {
       return null;
     }
@@ -105,11 +115,12 @@ export class Events {
     t.forEach((handler: any) => {
       responses.push(handler(...args));
     });
+
     return responses;
   }
-}
+    }
 
-/**
+  /**
  * @hidden
  */
 export function setupEvents(plt: Platform, dom: DomController): Events {
