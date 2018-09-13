@@ -8,14 +8,14 @@ import { updatePaginationClasses } from './swiper-pagination';
   Classes
   ===========================*/
 export function updateClasses(s: Slides) {
-  var childElements: HTMLElement[];
+  let childElements: HTMLElement[];
 
   removeClass(s._slides, [CLS.slideActive, CLS.slideNext, CLS.slidePrev, CLS.slideDuplicateActive, CLS.slideDuplicateNext, CLS.slideDuplicatePrev]);
-  for (var i = 0; i < s._slides.length; i++) {
+  for (let i = 0; i < s._slides.length; i++) {
     ariaHidden(s._slides[i], true);
   }
 
-  var activeSlide = s._slides[s._activeIndex];
+  let activeSlide = s._slides[s._activeIndex];
   if (!activeSlide) {
     return;
   }
@@ -37,14 +37,14 @@ export function updateClasses(s: Slides) {
   }
 
   // Next Slide
-  var nextSlide = activeSlide.nextElementSibling;
+  let nextSlide = activeSlide.nextElementSibling;
   if (s.loop && !nextSlide) {
     nextSlide = s._slides[0];
   }
   nextSlide && nextSlide.classList.add(CLS.slideNext);
 
   // Prev Slide
-  var prevSlide = activeSlide.previousElementSibling;
+  let prevSlide = activeSlide.previousElementSibling;
   if (s.loop && !prevSlide) {
     prevSlide = s._slides[s._slides.length - 1];
   }

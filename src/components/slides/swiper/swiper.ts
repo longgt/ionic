@@ -58,7 +58,7 @@ export function initSwiper(s: Slides, plt: Platform) {
     s.resistanceRatio = 0;
   }
 
-  var effect = s.effect;
+  let effect = s.effect;
 
   // Coverflow / 3D
   if (['cube', 'coverflow', 'flip'].indexOf(effect) >= 0) {
@@ -202,8 +202,8 @@ export function initSwiper(s: Slides, plt: Platform) {
   Autoplay
   ===========================*/
 function autoplay(s: Slides, plt: Platform) {
-  var autoplayDelay = s.autoplay;
-  var activeSlide = s._slides[s._activeIndex];
+  let autoplayDelay = s.autoplay;
+  let activeSlide = s._slides[s._activeIndex];
 
   if (activeSlide.hasAttribute('data-swiper-autoplay')) {
     autoplayDelay = <any>(activeSlide.getAttribute('data-swiper-autoplay') || s.autoplay);
@@ -290,14 +290,14 @@ export function pauseAutoplay(s: Slides, plt: Platform, speed?: number) {
   Slider/slides sizes
   ===========================*/
 export function updateAutoHeight(s: Slides) {
-  var activeSlides: SlideElement[] = [];
-  var newHeight = 0;
-  var i: number;
+  let activeSlides: SlideElement[] = [];
+  let newHeight = 0;
+  let i: number;
 
   // Find slides currently in view
   if (s.slidesPerView !== 'auto' && s.slidesPerView > 1) {
     for (i = 0; i < Math.ceil(<any>s.slidesPerView); i++) {
-      var index = s._activeIndex + i;
+      let index = s._activeIndex + i;
       if (index > s._slides.length) break;
       activeSlides.push(s._slides[index]);
     }
@@ -308,7 +308,7 @@ export function updateAutoHeight(s: Slides) {
   // Find new height from heighest slide in view
   for (i = 0; i < activeSlides.length; i++) {
     if (typeof activeSlides[i] !== 'undefined') {
-      var height = activeSlides[i].offsetHeight;
+      let height = activeSlides[i].offsetHeight;
       newHeight = height > newHeight ? height : newHeight;
     }
   }
@@ -359,11 +359,11 @@ export function updateSlidesSize(s: Slides, plt: Platform) {
   s._slidesGrid = [];
   s._slidesSizesGrid = [];
 
-  var spaceBetween: any = s.spaceBetween;
-  var slidePosition = -s.slidesOffsetBefore;
-  var i: number;
-  var prevSlideSize = 0;
-  var index = 0;
+  let spaceBetween: any = s.spaceBetween;
+  let slidePosition = -s.slidesOffsetBefore;
+  let i: number;
+  let prevSlideSize = 0;
+  let index = 0;
   if (typeof s._renderedSize === 'undefined') return;
   if (typeof spaceBetween === 'string' && spaceBetween.indexOf('%') >= 0) {
     spaceBetween = parseFloat(spaceBetween.replace('%', '')) / 100 * s._renderedSize;
@@ -378,7 +378,7 @@ export function updateSlidesSize(s: Slides, plt: Platform) {
     inlineStyle(s._slides, { marginRight: '', marginBottom: '' });
   }
 
-  var slidesNumberEvenToRows: number;
+  let slidesNumberEvenToRows: number;
   if (s.slidesPerColumn > 1) {
     if (Math.floor(s._slides.length / s.slidesPerColumn) === s._slides.length / s.slidesPerColumn) {
       slidesNumberEvenToRows = s._slides.length;
@@ -391,19 +391,19 @@ export function updateSlidesSize(s: Slides, plt: Platform) {
   }
 
   // Calc slides
-  var slideSize: number;
-  var slidesPerColumn = s.slidesPerColumn;
-  var slidesPerRow = slidesNumberEvenToRows / slidesPerColumn;
-  var numFullColumns = slidesPerRow - (s.slidesPerColumn * slidesPerRow - s._slides.length);
+  let slideSize: number;
+  let slidesPerColumn = s.slidesPerColumn;
+  let slidesPerRow = slidesNumberEvenToRows / slidesPerColumn;
+  let numFullColumns = slidesPerRow - (s.slidesPerColumn * slidesPerRow - s._slides.length);
 
   for (i = 0; i < s._slides.length; i++) {
     slideSize = 0;
-    var slide = s._slides[i];
+    let slide = s._slides[i];
     if (s.slidesPerColumn > 1) {
       // Set slides order
-      var newSlideOrderIndex: number;
-      var column: number;
-      var row: number;
+      let newSlideOrderIndex: number;
+      let column: number;
+      let row: number;
 
       if (s.slidesPerColumnFill === 'column') {
         column = Math.floor(i / slidesPerColumn);
@@ -428,8 +428,8 @@ export function updateSlidesSize(s: Slides, plt: Platform) {
         column = i - row * slidesPerRow;
       }
 
-      var cssVal = (row !== 0 && s.spaceBetween) && (s.spaceBetween + 'px');
-      var cssObj: {[key: string]: string} = {};
+      let cssVal = (row !== 0 && s.spaceBetween) && (s.spaceBetween + 'px');
+      let cssObj: {[key: string]: string} = {};
 
       if (isHorizontal(s)) {
         cssObj['marginTop'] = cssVal;
@@ -447,7 +447,7 @@ export function updateSlidesSize(s: Slides, plt: Platform) {
     }
 
     if (s.slidesPerView === 'auto') {
-      var styles = plt.getElementComputedStyle(slide);
+      let styles = plt.getElementComputedStyle(slide);
       if (isHorizontal(s)) {
         slideSize = slide.offsetWidth + parseFloat(styles.marginRight) + parseFloat(styles.marginLeft);
       } else {
@@ -489,7 +489,7 @@ export function updateSlidesSize(s: Slides, plt: Platform) {
     index ++;
   }
   s._virtualSize = Math.max(s._virtualSize, s._renderedSize) + s.slidesOffsetAfter;
-  var newSlidesGrid: any[];
+  let newSlidesGrid: any[];
 
   if (
     s._rtl && (s.effect === 'slide' || s.effect === 'coverflow')) {
@@ -556,13 +556,13 @@ export function updateSlidesSize(s: Slides, plt: Platform) {
   Dynamic Slides Per View
   ===========================*/
 export function currentSlidesPerView(s: Slides) {
-  var spv = 1;
-  var i: number;
-  var j: number;
+  let spv = 1;
+  let i: number;
+  let j: number;
 
   if (s.centeredSlides) {
-    var size = s._slides[s._activeIndex].swiperSlideSize;
-    var breakLoop: boolean;
+    let size = s._slides[s._activeIndex].swiperSlideSize;
+    let breakLoop: boolean;
 
     for (i = s._activeIndex + 1; i < s._slides.length; i++) {
       if (s._slides[i] && !breakLoop) {
@@ -607,8 +607,8 @@ export function update(s: Slides, plt: Platform, updateTranslate?: boolean) {
     resetZoomEvents(s, plt);
   }
 
-  var translated: boolean;
-  var newTranslate: number;
+  let translated: boolean;
+  let newTranslate: number;
 
   function forceSetTranslate() {
     newTranslate = Math.min(Math.max(s._translate, maxTranslate(s)), minTranslate(s));
@@ -655,7 +655,7 @@ function createLoop(s: Slides) {
     ele.parentElement.removeChild(ele);
   });
 
-  var slides: SlideElement[] = <any>s._wrapper.querySelectorAll('.' + CLS.slide);
+  let slides: SlideElement[] = <any>s._wrapper.querySelectorAll('.' + CLS.slide);
 
   if (s.slidesPerView === 'auto' && !s.loopedSlides) {
     s.loopedSlides = slides.length;
@@ -667,23 +667,23 @@ function createLoop(s: Slides) {
     s.loopedSlides = slides.length;
   }
 
-  var prependSlides: SlideElement[] = [];
-  var appendSlides: SlideElement[] = [];
+  let prependSlides: SlideElement[] = [];
+  let appendSlides: SlideElement[] = [];
 
-  for (var i = 0; i < slides.length; i++) {
-    var slide = slides[i];
+  for (let i = 0; i < slides.length; i++) {
+    let slide = slides[i];
     if (i < s.loopedSlides) appendSlides.push(slide);
     if (i < slides.length && i >= slides.length - s.loopedSlides) prependSlides.push(slide);
     slide.setAttribute('data-swiper-slide-index', <any>i);
   }
 
-  for (i = 0; i < appendSlides.length; i++) {
-    var appendClone = appendSlides[i].cloneNode(true);
+  for (let i = 0; i < appendSlides.length; i++) {
+    let appendClone = appendSlides[i].cloneNode(true);
     addClass(appendClone, CLS.slideDuplicate);
     s._wrapper.appendChild(appendClone);
   }
-  for (i = prependSlides.length - 1; i >= 0; i--) {
-    var prependClone = prependSlides[i].cloneNode(true);
+  for (let i = prependSlides.length - 1; i >= 0; i--) {
+    let prependClone = prependSlides[i].cloneNode(true);
     addClass(prependClone, CLS.slideDuplicate);
     s._wrapper.insertBefore(prependClone, s._wrapper.firstElementChild);
   }
@@ -694,14 +694,14 @@ function destroyLoop(s: Slides) {
     ele.parentElement.removeChild(ele);
   });
   if (s._slides) {
-    for (var i = 0; i < s._slides.length; i++) {
+    for (let i = 0; i < s._slides.length; i++) {
       s._slides[i].removeAttribute('data-swiper-slide-index');
     }
   }
 }
 
 export function fixLoop(s: Slides, plt: Platform) {
-  var newIndex: number;
+  let newIndex: number;
 
   if (s._activeIndex < s.loopedSlides) {
     // Fix For Negative Oversliding
@@ -729,7 +729,7 @@ export function slideTo(s: Slides, plt: Platform, slideIndex?: number, speed?: n
   s._snapIndex = Math.floor(slideIndex / s.slidesPerGroup);
   if (s._snapIndex >= s._snapGrid.length) s._snapIndex = s._snapGrid.length - 1;
 
-  var translate = - s._snapGrid[s._snapIndex];
+  let translate = - s._snapGrid[s._snapIndex];
   // Stop autoplay
   if (s.autoplay && s._autoplaying) {
     if (internal || !s.autoplayDisableOnInteraction) {
@@ -845,7 +845,7 @@ export function slideNext(s: Slides, plt: Platform, runCallbacks?: boolean, spee
     return slideTo(s, plt, s._activeIndex + s.slidesPerGroup, speed, runCallbacks, internal);
   }
 
-  var nextSlide = s._activeIndex + s.slidesPerGroup;
+  let nextSlide = s._activeIndex + s.slidesPerGroup;
   if (nextSlide < s._slides.length) {
     return slideTo(s, plt, nextSlide, speed, runCallbacks, internal);
   }
@@ -861,7 +861,7 @@ export function slidePrev(s: Slides, plt: Platform, runCallbacks?: boolean, spee
     return slideTo(s, plt, s._activeIndex - 1, speed, runCallbacks, internal);
   }
 
-  var previousSlide = s._activeIndex - 1;
+  let previousSlide = s._activeIndex - 1;
   if (previousSlide >= 0) {
     return slideTo(s, plt, s._activeIndex - 1, speed, runCallbacks, internal);
   }
@@ -914,8 +914,8 @@ function cleanupStyles(s: Slides) {
       CLS.slideNext,
       CLS.slidePrev
     ]);
-    for (var i = 0; i < s._slides.length; i++) {
-      var slide = s._slides[i];
+    for (let i = 0; i < s._slides.length; i++) {
+      let slide = s._slides[i];
       slide.removeAttribute('style');
       slide.removeAttribute('data-swiper-column');
       slide.removeAttribute('data-swiper-row');

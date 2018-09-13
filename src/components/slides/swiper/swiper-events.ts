@@ -171,9 +171,9 @@ function onClickPrev(s: Slides, plt: Platform, e: UIEvent) {
 }
 
 function onClickIndex(s: Slides, plt: Platform, e: UIEvent) {
-  var indexStr = (<HTMLElement>e.target).getAttribute('data-slide-index');
+  let indexStr = (<HTMLElement>e.target).getAttribute('data-slide-index');
   if (indexStr) {
-    var index = parseInt(indexStr, 10);
+    let index = parseInt(indexStr, 10);
     e.preventDefault();
     if (s.loop) {
       index = index + s.loopedSlides;
@@ -187,13 +187,13 @@ function onClickIndex(s: Slides, plt: Platform, e: UIEvent) {
   Handle Touches
   ===========================*/
 function findElementInEvent(e: SlideUIEvent, selector: any) {
-  var el = <HTMLElement>e.target;
+  let el = <HTMLElement>e.target;
   if (!el.matches(selector)) {
     if (typeof selector === 'string') {
       el = <HTMLElement>el.closest(selector);
 
     } else if (selector.nodeType) {
-      var parentEl = el.parentElement;
+      let parentEl = el.parentElement;
       while (parentEl) {
         if (parentEl === selector) {
           return selector;
@@ -208,11 +208,11 @@ function findElementInEvent(e: SlideUIEvent, selector: any) {
 
 
 function updateClickedSlide(s: Slides, plt: Platform, e: SlideUIEvent) {
-  var slide: SlideElement = <any>findElementInEvent(e, '.' + CLS.slide);
-  var slideIndex = -1;
+  let slide: SlideElement = <any>findElementInEvent(e, '.' + CLS.slide);
+  let slideIndex = -1;
 
   if (slide) {
-    for (var i = 0; i < s._slides.length; i++) {
+    for (let i = 0; i < s._slides.length; i++) {
       if (s._slides[i] === slide) {
         slideIndex = i;
         break;
@@ -231,9 +231,9 @@ function updateClickedSlide(s: Slides, plt: Platform, e: SlideUIEvent) {
   }
 
   if (s.slideToClickedSlide && s.clickedIndex !== undefined && s.clickedIndex !== s._activeIndex) {
-    var slideToIndex = s.clickedIndex;
-    var realIndex: number;
-    var slidesPerView = s.slidesPerView === 'auto' ? currentSlidesPerView(s) : <number>s.slidesPerView;
+    let slideToIndex = s.clickedIndex;
+    let realIndex: number;
+    let slidesPerView = s.slidesPerView === 'auto' ? currentSlidesPerView(s) : <number>s.slidesPerView;
 
     if (s.loop) {
       if (s._animating) return;
@@ -275,27 +275,27 @@ function updateClickedSlide(s: Slides, plt: Platform, e: SlideUIEvent) {
   }
 }
 
-var isTouched: boolean;
-var isMoved: boolean;
-var allowTouchCallbacks: boolean;
-var touchStartTime: number;
-var isScrolling: boolean;
-var currentTranslate: number;
-var startTranslate: any;
-var allowThresholdMove: any;
+let isTouched: boolean;
+let isMoved: boolean;
+let allowTouchCallbacks: boolean;
+let touchStartTime: number;
+let isScrolling: boolean;
+let currentTranslate: number;
+let startTranslate: any;
+let allowThresholdMove: any;
 
 // Last click time
-var lastClickTime = Date.now();
-var clickTimeout: any;
+let lastClickTime = Date.now();
+let clickTimeout: any;
 
 // Velocities
-var velocities: any[] = [];
-var allowMomentumBounce: boolean;
+let velocities: any[] = [];
+let allowMomentumBounce: boolean;
 
 
 // Touch handlers
-var isTouchEvent: boolean;
-var startMoving: boolean;
+let isTouchEvent: boolean;
+let startMoving: boolean;
 
 function onTouchStart(s: Slides, plt: Platform, ev: SlideUIEvent) {
   console.debug(`ion-slide, onTouchStart: ${ev.type}`);
@@ -320,8 +320,8 @@ function onTouchStart(s: Slides, plt: Platform, ev: SlideUIEvent) {
     if (!findElementInEvent(ev, s.swipeHandler)) return;
   }
 
-  var startX = s._touches.currentX = ev.type === 'touchstart' ? ev.targetTouches[0].pageX : ev.pageX;
-  var startY = s._touches.currentY = ev.type === 'touchstart' ? ev.targetTouches[0].pageY : ev.pageY;
+  let startX = s._touches.currentX = ev.type === 'touchstart' ? ev.targetTouches[0].pageX : ev.pageX;
+  let startY = s._touches.currentY = ev.type === 'touchstart' ? ev.targetTouches[0].pageY : ev.pageY;
 
   // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (UIWebView) cannot swipe-to-go-back anymore
   if (plt.is('ios') && s.iOSEdgeSwipeDetection && startX <= s.iOSEdgeSwipeThreshold) {
@@ -349,7 +349,7 @@ function onTouchStart(s: Slides, plt: Platform, ev: SlideUIEvent) {
   }
 
   if (ev.type !== 'touchstart') {
-    var preventDefault = true;
+    let preventDefault = true;
     if (isFormElement(ev.target)) {
       preventDefault = false;
     }
@@ -424,7 +424,7 @@ function onTouchMove(s: Slides, plt: Platform, ev: SlideUIEvent) {
   s._touches.currentY = ev.type === 'touchmove' ? ev.targetTouches[0].pageY : ev.pageY;
 
   if (typeof isScrolling === 'undefined') {
-    var touchAngle: number;
+    let touchAngle: number;
     if (isHorizontal(s) && s._touches.currentY === s._touches.startY || !isHorizontal(s) && s._touches.currentX === s._touches.startX) {
       isScrolling = false;
     } else {
@@ -471,7 +471,7 @@ function onTouchMove(s: Slides, plt: Platform, ev: SlideUIEvent) {
   }
   isMoved = true;
 
-  var diff = s._touches.diff = isHorizontal(s) ? s._touches.currentX - s._touches.startX : s._touches.currentY - s._touches.startY;
+  let diff = s._touches.diff = isHorizontal(s) ? s._touches.currentX - s._touches.startX : s._touches.currentY - s._touches.startY;
 
   diff = diff * s.touchRatio;
   if (s._rtl) diff = -diff;
@@ -479,7 +479,7 @@ function onTouchMove(s: Slides, plt: Platform, ev: SlideUIEvent) {
   s.swipeDirection = diff > 0 ? 'prev' : 'next';
   currentTranslate = diff + startTranslate;
 
-  var disableParentSwiper = true;
+  let disableParentSwiper = true;
   if ((diff > 0 && currentTranslate > minTranslate(s))) {
     disableParentSwiper = false;
     if (s.resistance) {
@@ -565,8 +565,8 @@ function onTouchEnd(s: Slides, plt: Platform, ev: SlideUIEvent) {
   if (!isTouched) return;
 
   // Time diff
-  var touchEndTime = Date.now();
-  var timeDiff = touchEndTime - touchStartTime;
+  let touchEndTime = Date.now();
+  let timeDiff = touchEndTime - touchStartTime;
 
   // Tap, doubleTap, Click
   if (s._allowClick) {
@@ -608,7 +608,7 @@ function onTouchEnd(s: Slides, plt: Platform, ev: SlideUIEvent) {
   }
   isTouched = isMoved = false;
 
-  var currentPos: number;
+  let currentPos: number;
   if (s.followFinger) {
     currentPos = s._rtl ? s._translate : -s._translate;
   } else {
@@ -631,10 +631,10 @@ function onTouchEnd(s: Slides, plt: Platform, ev: SlideUIEvent) {
 
     if (s.freeModeMomentum) {
       if (velocities.length > 1) {
-        var lastMoveEvent = velocities.pop(), velocityEvent = velocities.pop();
+        let lastMoveEvent = velocities.pop(), velocityEvent = velocities.pop();
 
-        var distance = lastMoveEvent.position - velocityEvent.position;
-        var time = lastMoveEvent.time - velocityEvent.time;
+        let distance = lastMoveEvent.position - velocityEvent.position;
+        let time = lastMoveEvent.time - velocityEvent.time;
         s.velocity = distance / time;
         s.velocity = s.velocity / 2;
         if (Math.abs(s.velocity) < s.freeModeMinimumVelocity) {
@@ -652,14 +652,14 @@ function onTouchEnd(s: Slides, plt: Platform, ev: SlideUIEvent) {
       s.velocity = s.velocity * s.freeModeMomentumVelocityRatio;
 
       velocities.length = 0;
-      var momentumDuration = 1000 * s.freeModeMomentumRatio;
-      var momentumDistance = s.velocity * momentumDuration;
+      let momentumDuration = 1000 * s.freeModeMomentumRatio;
+      let momentumDistance = s.velocity * momentumDuration;
 
-      var newPosition = s._translate + momentumDistance;
+      let newPosition = s._translate + momentumDistance;
       if (s._rtl) newPosition = - newPosition;
-      var doBounce = false;
-      var afterBouncePosition: number;
-      var bounceAmount = Math.abs(s.velocity) * 20 * s.freeModeMomentumBounceRatio;
+      let doBounce = false;
+      let afterBouncePosition: number;
+      let bounceAmount = Math.abs(s.velocity) * 20 * s.freeModeMomentumBounceRatio;
 
       if (newPosition < maxTranslate(s)) {
         if (s.freeModeMomentumBounce) {
@@ -686,8 +686,8 @@ function onTouchEnd(s: Slides, plt: Platform, ev: SlideUIEvent) {
         }
 
       } else if (s.freeModeSticky) {
-        var j = 0;
-        var nextSlide: number;
+        let j = 0;
+        let nextSlide: number;
         for (j = 0; j < s._snapGrid.length; j += 1) {
           if (s._snapGrid[j] > -newPosition) {
             nextSlide = j;
@@ -766,10 +766,10 @@ function onTouchEnd(s: Slides, plt: Platform, ev: SlideUIEvent) {
   }
 
   // Find current slide
-  var stopIndex = 0;
-  var groupSize = s._slidesSizesGrid[0];
+  let stopIndex = 0;
+  let groupSize = s._slidesSizesGrid[0];
 
-  for (var i = 0; i < s._slidesGrid.length; i += s.slidesPerGroup) {
+  for (let i = 0; i < s._slidesGrid.length; i += s.slidesPerGroup) {
     if (typeof s._slidesGrid[i + s.slidesPerGroup] !== 'undefined') {
       if (currentPos >= s._slidesGrid[i] && currentPos < s._slidesGrid[i + s.slidesPerGroup]) {
         stopIndex = i;
@@ -784,7 +784,7 @@ function onTouchEnd(s: Slides, plt: Platform, ev: SlideUIEvent) {
   }
 
   // Find current slide size
-  var ratio = (currentPos - s._slidesGrid[stopIndex]) / groupSize;
+  let ratio = (currentPos - s._slidesGrid[stopIndex]) / groupSize;
 
   if (timeDiff > s.longSwipesMs) {
     // Long touches
@@ -843,8 +843,8 @@ function onResize(s: Slides, plt: Platform, forceUpdatePagination: boolean) {
 function doResize(s: Slides, plt: Platform, forceUpdatePagination: boolean) {
   resizeId = null;
   // Disable locks on resize
-  var allowSwipeToPrev = s._allowSwipeToPrev;
-  var allowSwipeToNext = s._allowSwipeToNext;
+  let allowSwipeToPrev = s._allowSwipeToPrev;
+  let allowSwipeToNext = s._allowSwipeToNext;
 
   s._allowSwipeToPrev = s._allowSwipeToNext = true;
 
@@ -859,9 +859,9 @@ function doResize(s: Slides, plt: Platform, forceUpdatePagination: boolean) {
     s._spline = undefined;
   }
 
-  var slideChangedBySlideTo = false;
+  let slideChangedBySlideTo = false;
   if (s.freeMode) {
-    var newTranslate = Math.min(Math.max(s._translate, maxTranslate(s)), minTranslate(s));
+    let newTranslate = Math.min(Math.max(s._translate, maxTranslate(s)), minTranslate(s));
     setWrapperTranslate(s, plt, newTranslate);
     updateActiveIndex(s);
     updateClasses(s);

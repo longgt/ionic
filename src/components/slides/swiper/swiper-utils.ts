@@ -9,12 +9,12 @@ export function round(a: any) {
 export function inlineStyle(ele: any, styles: any) {
   if (ele) {
     if (ele.length) {
-      for (var i = 0; i < ele.length; i++) {
+      for (let i = 0; i < ele.length; i++) {
         inlineStyle(ele[i], styles);
       }
 
     } else if (ele.nodeType) {
-      var cssProps = Object.keys(styles);
+      let cssProps = Object.keys(styles);
       for (let i = 0; i < cssProps.length; i++) {
         ele.style[cssProps[i]] = styles[cssProps[i]];
       }
@@ -25,7 +25,7 @@ export function inlineStyle(ele: any, styles: any) {
 export function addClass(ele: any, className: string) {
   if (ele) {
     if (ele.length) {
-      for (var i = 0; i < ele.length; i++) {
+      for (let i = 0; i < ele.length; i++) {
         addClass(ele[i], className);
       }
 
@@ -44,7 +44,7 @@ export function addClass(ele: any, className: string) {
 export function removeClass(ele: any, className: any) {
   if (ele) {
     if (ele.length) {
-      for (var i = 0; i < ele.length; i++) {
+      for (let i = 0; i < ele.length; i++) {
         removeClass(ele[i], className);
       }
 
@@ -61,7 +61,7 @@ export function removeClass(ele: any, className: any) {
 }
 
 export function getElementIndex(ele: any) {
-  var i = 0;
+  let i = 0;
   if (ele) {
     while ((ele = ele.previousSibling) !== null) {
       if (ele.nodeType === 1) i++;
@@ -79,8 +79,8 @@ export function queryChildren(parentEle: HTMLElement, query: string): HTMLElemen
 
 export function eachChild(parentEle: HTMLElement, query: string, callback: {(foundEle: HTMLElement): void}): void {
   if (parentEle) {
-    var nodes = parentEle.querySelectorAll(query);
-    for (var i = 0; i < nodes.length; i++) {
+    let nodes = parentEle.querySelectorAll(query);
+    for (let i = 0; i < nodes.length; i++) {
       callback(<any>nodes[i]);
     }
   }
@@ -88,7 +88,7 @@ export function eachChild(parentEle: HTMLElement, query: string, callback: {(fou
 
 export function transform(ele: HTMLElement, val: any) {
   if (ele) {
-    var elStyle = <any>ele.style;
+    let elStyle = <any>ele.style;
     elStyle.webkitTransform = elStyle.MsTransform = elStyle.msTransform = elStyle.transform = val;
   }
 }
@@ -98,28 +98,28 @@ export function transition(ele: HTMLElement, duration: any) {
     if (typeof duration !== 'string') {
       duration = duration + 'ms';
     }
-    var elStyle = <any>ele.style;
+    let elStyle = <any>ele.style;
     elStyle.webkitTransitionDuration = elStyle.MsTransitionDuration = elStyle.msTransitionDuration = elStyle.transitionDuration = duration;
   }
 }
 
 export function triggerTransitionEnd(plt: Platform, ele: HTMLElement) {
   try {
-    var win: any = plt.win();
-    var evt = new win.CustomEvent('transitionend', {bubbles: true, cancelable: true});
+    let win: any = plt.win();
+    let evt = new win.CustomEvent('transitionend', {bubbles: true, cancelable: true});
     ele.dispatchEvent(evt);
   } catch (e) {}
 }
 
 export function offset(ele: HTMLElement, plt: Platform) {
   if (ele) {
-    var box = plt.getElementBoundingClientRect(ele);
-    var body = plt.doc().body;
-    var win = plt.win();
-    var clientTop  = ele.clientTop  || body.clientTop  || 0;
-    var clientLeft = ele.clientLeft || body.clientLeft || 0;
-    var scrollTop  = win.pageYOffset || ele.scrollTop;
-    var scrollLeft = win.pageXOffset || ele.scrollLeft;
+    let box = plt.getElementBoundingClientRect(ele);
+    let body = plt.doc().body;
+    let win = plt.win();
+    let clientTop  = ele.clientTop  || body.clientTop  || 0;
+    let clientLeft = ele.clientLeft || body.clientLeft || 0;
+    let scrollTop  = win.pageYOffset || ele.scrollTop;
+    let scrollLeft = win.pageXOffset || ele.scrollLeft;
     return {
       top: box.top  + scrollTop  - clientTop,
       left: box.left + scrollLeft - clientLeft
@@ -129,7 +129,7 @@ export function offset(ele: HTMLElement, plt: Platform) {
 }
 
 export function updateSlidesOffset(s: Slides) {
-  for (var i = 0; i < s._slides.length; i++) {
+  for (let i = 0; i < s._slides.length; i++) {
     s._slides[i].swiperSlideOffset = isHorizontal(s) ? s._slides[i].offsetLeft : s._slides[i].offsetTop;
   }
 }

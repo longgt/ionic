@@ -97,7 +97,7 @@ function onEnterKey(_: Slides, __: KeyboardEvent) {
 
 
 // function notify(s: Slides, message: string) {
-//   var notification = s._liveRegion;
+//   let notification = s._liveRegion;
 //   if (notification) {
 //     notification.innerHTML = message || '';
 //   }

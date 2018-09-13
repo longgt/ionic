@@ -59,7 +59,7 @@ export function initZoom(s: Slides, plt: Platform) {
 function getDistanceBetweenTouches(ev: TouchEvent) {
   if (ev.targetTouches.length < 2) return 1;
 
-  var x1 = ev.targetTouches[0].pageX,
+  let x1 = ev.targetTouches[0].pageX,
     y1 = ev.targetTouches[0].pageY,
     x2 = ev.targetTouches[1].pageX,
     y2 = ev.targetTouches[1].pageY;
@@ -210,8 +210,8 @@ function onTouchMove(s: Slides, plt: Platform, ev: TouchEvent) {
   }
 
   // Define if we need image drag
-  var scaledWidth = z.image.width * z.scale;
-  var scaledHeight = z.image.height * z.scale;
+  let scaledWidth = z.image.width * z.scale;
+  let scaledHeight = z.image.height * z.scale;
 
   if (scaledWidth < z.gesture.slideWidth && scaledHeight < z.gesture.slideHeight) {
     return;
@@ -297,25 +297,25 @@ function onTouchEnd(s: Slides) {
   z.image.isTouched = false;
   z.image.isMoved = false;
 
-  var momentumDurationX = 300;
-  var momentumDurationY = 300;
-  var momentumDistanceX = z.velocity.x * momentumDurationX;
-  var newPositionX = z.image.currentX + momentumDistanceX;
-  var momentumDistanceY = z.velocity.y * momentumDurationY;
-  var newPositionY = z.image.currentY + momentumDistanceY;
+  let momentumDurationX = 300;
+  let momentumDurationY = 300;
+  let momentumDistanceX = z.velocity.x * momentumDurationX;
+  let newPositionX = z.image.currentX + momentumDistanceX;
+  let momentumDistanceY = z.velocity.y * momentumDurationY;
+  let newPositionY = z.image.currentY + momentumDistanceY;
 
   // Fix duration
   if (z.velocity.x !== 0) momentumDurationX = Math.abs((newPositionX - z.image.currentX) / z.velocity.x);
   if (z.velocity.y !== 0) momentumDurationY = Math.abs((newPositionY - z.image.currentY) / z.velocity.y);
 
-  var momentumDuration = Math.max(momentumDurationX, momentumDurationY);
+  let momentumDuration = Math.max(momentumDurationX, momentumDurationY);
 
   z.image.currentX = newPositionX;
   z.image.currentY = newPositionY;
 
   // Define if we need image drag
-  var scaledWidth = z.image.width * z.scale;
-  var scaledHeight = z.image.height * z.scale;
+  let scaledWidth = z.image.width * z.scale;
+  let scaledHeight = z.image.height * z.scale;
 
   z.image.minX = Math.min((z.gesture.slideWidth / 2 - scaledWidth / 2), 0);
   z.image.maxX = -z.image.minX;
@@ -356,24 +356,24 @@ function toggleZoom(s: Slides, plt: Platform) {
 
   if (!z.gesture.imageWrap) return;
 
-  var touchX: number;
-  var touchY: number;
-  var offsetX: number;
-  var offsetY: number;
-  var diffX: number;
-  var diffY: number;
-  var translateX: number;
-  var translateY: number;
-  var imageWidth: number;
-  var imageHeight: number;
-  var scaledWidth: number;
-  var scaledHeight: number;
-  var translateMinX: number;
-  var translateMinY: number;
-  var translateMaxX: number;
-  var translateMaxY: number;
-  var slideWidth: number;
-  var slideHeight: number;
+  let touchX: number;
+  let touchY: number;
+  let offsetX: number;
+  let offsetY: number;
+  let diffX: number;
+  let diffY: number;
+  let translateX: number;
+  let translateY: number;
+  let imageWidth: number;
+  let imageHeight: number;
+  let scaledWidth: number;
+  let scaledHeight: number;
+  let translateMinX: number;
+  let translateMinY: number;
+  let translateMaxX: number;
+  let translateMaxY: number;
+  let slideWidth: number;
+  let slideHeight: number;
 
   if (typeof z.image.touchesStart.x === 'undefined' && ev) {
     touchX = ev.type === 'touchend' ? ev.changedTouches[0].pageX : (<any>ev).pageX;
@@ -404,7 +404,7 @@ function toggleZoom(s: Slides, plt: Platform) {
       slideWidth = z.gesture.slide.offsetWidth;
       slideHeight = z.gesture.slide.offsetHeight;
 
-      var slideOffsets = offset(z.gesture.slide, plt);
+      let slideOffsets = offset(z.gesture.slide, plt);
       offsetX = slideOffsets.left;
       offsetY = slideOffsets.top;
 
@@ -503,7 +503,7 @@ export function resetZoomEvents(s: Slides, plt: Platform) {
   }
 
   // Move image
-  var touchStartSub = s.ionSlideTouchStart.subscribe((ev: TouchEvent) => {
+  let touchStartSub = s.ionSlideTouchStart.subscribe((ev: TouchEvent) => {
     onTouchStart(s, plt, ev);
   });
   unRegs.push(() => { touchStartSub.unsubscribe(); });
@@ -517,19 +517,19 @@ export function resetZoomEvents(s: Slides, plt: Platform) {
     }
   }
 
-  var touchEndSub = s.ionSlideTouchEnd.subscribe(() => {
+  let touchEndSub = s.ionSlideTouchEnd.subscribe(() => {
     onTouchEnd(s);
   });
   unRegs.push(() => { touchEndSub.unsubscribe(); });
 
   // Scale Out
-  var transEndSub = s.ionSlideTouchEnd.subscribe(() => {
+  let transEndSub = s.ionSlideTouchEnd.subscribe(() => {
     onTransitionEnd(s);
   });
   unRegs.push(() => { transEndSub.unsubscribe(); });
 
   if (s.zoomToggle) {
-    var doubleTapSub = s.ionSlideDoubleTap.subscribe(() => {
+    let doubleTapSub = s.ionSlideDoubleTap.subscribe(() => {
       toggleZoom(s, plt);
     });
     unRegs.push(() => { doubleTapSub.unsubscribe(); });

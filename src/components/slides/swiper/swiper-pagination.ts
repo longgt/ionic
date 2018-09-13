@@ -8,11 +8,11 @@ import { Slides } from '../slides';
 export function updatePagination(s: Slides) {
   if (!s.paginationType || !s._paginationContainer) return;
 
-  var paginationHTML = '';
+  let paginationHTML = '';
 
   if (s.paginationType === 'bullets') {
-    var numberOfBullets = s.loop ? Math.ceil((s._slides.length - s.loopedSlides * 2) / s.slidesPerGroup) : s._snapGrid.length;
-    for (var i = 0; i < numberOfBullets; i++) {
+    let numberOfBullets = s.loop ? Math.ceil((s._slides.length - s.loopedSlides * 2) / s.slidesPerGroup) : s._snapGrid.length;
+    for (let i = 0; i < numberOfBullets; i++) {
       if (s.paginationBulletRender) {
         paginationHTML += s.paginationBulletRender(i, CLS.bullet);
       } else {
@@ -38,8 +38,8 @@ export function updatePagination(s: Slides) {
 
 export function updatePaginationClasses(s: Slides) {
   // Current/Total
-  var current: number;
-  var total = s.loop ? Math.ceil((s._slides.length - s.loopedSlides * 2) / s.slidesPerGroup) : s._snapGrid.length;
+  let current: number;
+  let total = s.loop ? Math.ceil((s._slides.length - s.loopedSlides * 2) / s.slidesPerGroup) : s._snapGrid.length;
 
   if (s.loop) {
     current = Math.ceil((s._activeIndex - s.loopedSlides) / s.slidesPerGroup);
@@ -63,8 +63,8 @@ export function updatePaginationClasses(s: Slides) {
 
   // Types
   if (s.paginationType === 'bullets' && s._bullets) {
-    var selector = current + ( current < 0 ? s._bullets.length : 0 );
-    for (var i = 0; i < s._bullets.length; i++) {
+    let selector = current + ( current < 0 ? s._bullets.length : 0 );
+    for (let i = 0; i < s._bullets.length; i++) {
       if (i === selector) {
         addClass(s._bullets[i], CLS.bulletActive);
       } else {
@@ -83,7 +83,7 @@ export function updatePaginationClasses(s: Slides) {
   }
 
   if (s.paginationType === 'progress') {
-    var scale = (current + 1) / total,
+    let scale = (current + 1) / total,
       scaleX = scale,
       scaleY = 1;
     if (!isHorizontal(s)) {

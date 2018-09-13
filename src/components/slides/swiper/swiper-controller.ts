@@ -17,7 +17,7 @@ export const SWIPER_CONTROLLER = {
     // Given an x value (x2), return the expected y2 value:
     // (x1,y1) is the known point before given value,
     // (x3,y3) is the known point after given value.
-    var i1: number, i3: number;
+    let i1: number, i3: number;
 
     this.interpolate = function (x2: number) {
       if (!x2) return 0;
@@ -31,8 +31,8 @@ export const SWIPER_CONTROLLER = {
       return ((x2 - this.x[i1]) * (this.y[i3] - this.y[i1])) / (this.x[i3] - this.x[i1]) + this.y[i1];
     };
 
-    var binarySearch = (function () {
-      var maxIndex: number, minIndex: number, guess: number;
+    let binarySearch = (function () {
+      let maxIndex: number, minIndex: number, guess: number;
       return function (array: any[], val: number) {
         minIndex = -1;
         maxIndex = array.length;
@@ -53,8 +53,8 @@ export const SWIPER_CONTROLLER = {
       new (<any>SWIPER_CONTROLLER).LinearSpline(s, plt, s._snapGrid, c._snapGrid);
   },
   setTranslate: function (s: Slides, plt: Platform, translate: number, byController: Slides, setWrapperTranslate: any) {
-    var controlled = s.control;
-    var multiplier: number, controlledTranslate: number;
+    let controlled = s.control;
+    let multiplier: number, controlledTranslate: number;
     function setControlledTranslate(c: Slides) {
       // this will create an Interpolate function based on the snapGrids
       // x is the Grid of the scrolled scroller and y will be the controlled scroller
@@ -81,7 +81,7 @@ export const SWIPER_CONTROLLER = {
       updateActiveIndex(c);
     }
     if (Array.isArray(controlled)) {
-      for (var i = 0; i < controlled.length; i++) {
+      for (let i = 0; i < controlled.length; i++) {
         if (controlled[i] !== byController) {
           setControlledTranslate(controlled[i]);
         }
@@ -91,8 +91,8 @@ export const SWIPER_CONTROLLER = {
     }
   },
   setTransition: function (s: Slides, plt: Platform, duration: number, byController: Slides, setWrapperTransition: any) {
-    var controlled = s.control;
-    var i: number;
+    let controlled = s.control;
+    let i: number;
     function setControlledTransition(c: Slides) {
       setWrapperTransition(c, plt, duration, s);
       if (duration !== 0) {

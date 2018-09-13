@@ -3,10 +3,10 @@ import { updateClasses } from './swiper-classes';
 
 
 export function updateActiveIndex(s: Slides) {
-  var translate = s._rtl ? s._translate : -s._translate;
-  var newActiveIndex: number;
-  var i: number;
-  var snapIndex: number;
+  let translate = s._rtl ? s._translate : -s._translate;
+  let newActiveIndex: number;
+  let i: number;
+  let snapIndex: number;
 
   for (i = 0; i < s._slidesGrid.length; i ++) {
     if (typeof s._slidesGrid[i + 1] !== 'undefined') {
@@ -37,7 +37,7 @@ export function updateActiveIndex(s: Slides) {
 }
 
 export function updateRealIndex(s: Slides) {
-  var activeSlide = <any>s._slides[s._activeIndex];
+  let activeSlide = <any>s._slides[s._activeIndex];
   if (activeSlide) {
     s.realIndex = parseInt(activeSlide.getAttribute('data-swiper-slide-index') || s._activeIndex, 10);
   }

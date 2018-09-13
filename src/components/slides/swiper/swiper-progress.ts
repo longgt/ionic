@@ -6,9 +6,9 @@ export function updateProgress(s: Slides, translate?: number) {
   if (typeof translate === 'undefined') {
     translate = s._translate || 0;
   }
-  var translatesDiff = maxTranslate(s) - minTranslate(s);
-  var wasBeginning = s._isBeginning;
-  var wasEnd = s._isEnd;
+  let translatesDiff = maxTranslate(s) - minTranslate(s);
+  let wasBeginning = s._isBeginning;
+  let wasEnd = s._isEnd;
 
   if (translatesDiff === 0) {
     s.progress = 0;
@@ -47,19 +47,19 @@ function updateSlidesProgress(s: Slides, translate: number) {
     updateSlidesOffset(s);
   }
 
-  var offsetCenter = -translate;
+  let offsetCenter = -translate;
   if (s._rtl) offsetCenter = translate;
 
   // Visible Slides
   removeClass(s._slides, CLS.slideVisible);
 
-  for (var i = 0; i < s._slides.length; i++) {
-    var slide = s._slides[i];
-    var slideProgress = (offsetCenter + (s.centeredSlides ? minTranslate(s) : 0) - slide.swiperSlideOffset) / (slide.swiperSlideSize + s.spaceBetween);
+  for (let i = 0; i < s._slides.length; i++) {
+    let slide = s._slides[i];
+    let slideProgress = (offsetCenter + (s.centeredSlides ? minTranslate(s) : 0) - slide.swiperSlideOffset) / (slide.swiperSlideSize + s.spaceBetween);
     if (s.watchSlidesVisibility) {
-      var slideBefore = -(offsetCenter - slide.swiperSlideOffset);
-      var slideAfter = slideBefore + s._slidesSizesGrid[i];
-      var isVisible =
+      let slideBefore = -(offsetCenter - slide.swiperSlideOffset);
+      let slideAfter = slideBefore + s._slidesSizesGrid[i];
+      let isVisible =
         (slideBefore >= 0 && slideBefore < s._renderedSize) ||
         (slideAfter > 0 && slideAfter <= s._renderedSize) ||
         (slideBefore <= 0 && slideAfter >= s._renderedSize);

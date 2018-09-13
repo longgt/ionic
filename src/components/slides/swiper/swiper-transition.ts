@@ -9,7 +9,7 @@ import { SWIPER_EFFECTS } from './swiper-effects';
 
 
 export function setWrapperTranslate(s: Slides, plt: Platform, translate: any, shouldUpdateActiveIndex?: boolean, byController?: Slides) {
-  var x = 0, y = 0, z = 0;
+  let x = 0, y = 0, z = 0;
   if (isHorizontal(s)) {
     x = s._rtl ? -translate : translate;
   } else {
@@ -28,8 +28,8 @@ export function setWrapperTranslate(s: Slides, plt: Platform, translate: any, sh
   s._translate = isHorizontal(s) ? x : y;
 
   // Check if we need to update progress
-  var progress: number;
-  var translatesDiff = maxTranslate(s) - minTranslate(s);
+  let progress: number;
+  let translatesDiff = maxTranslate(s) - minTranslate(s);
 
   if (translatesDiff === 0) {
     progress = 0;
@@ -60,11 +60,11 @@ export function setWrapperTranslate(s: Slides, plt: Platform, translate: any, sh
 
 
 export function getTranslate(s: Slides, plt: Platform, el: HTMLElement, axis: string) {
-  var win: any = plt.win();
-  var matrix: string[];
-  var curTransform: any;
-  var curStyle: CSSStyleDeclaration;
-  var transformMatrix: any;
+  let win: any = plt.win();
+  let matrix: string[];
+  let curTransform: any;
+  let curStyle: CSSStyleDeclaration;
+  let transformMatrix: any;
 
   // automatic axis detection
   if (typeof axis === 'undefined') {
