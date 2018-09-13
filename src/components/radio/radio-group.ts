@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, ContentChild, Directive, ElementRef, EventEmitter, Input, Output, Renderer } from '@angular/core';
+import { ChangeDetectorRef, ContentChild, Directive, ElementRef, EventEmitter, Input, Output, Renderer2 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ListHeader } from '../list/list-header';
@@ -117,7 +117,7 @@ export class RadioGroup {
   @Output() ionChange: EventEmitter<RadioGroup> = new EventEmitter<RadioGroup>();
 
   constructor(
-    private _renderer: Renderer,
+    private _renderer: Renderer2,
     private _elementRef: ElementRef,
     private _cd: ChangeDetectorRef
   ) {
@@ -196,7 +196,11 @@ export class RadioGroup {
    * @hidden
    */
   _setActive(radioButton: RadioButton) {
-    this._renderer.setElementAttribute(this._elementRef.nativeElement, 'aria-activedescendant', radioButton.id);
+    if (null != radioButton.id) {
+      this._renderer.setAttribute(this._elementRef.nativeElement, 'aria-activedescendant', radioButton.id);
+    } else {
+      this._renderer.removeAttribute(this._elementRef.nativeElement, 'aria-activedescendant');
+    }
   }
 
   /**
@@ -236,7 +240,7 @@ export class RadioGroup {
       if (!header.id) {
         header.id = 'rg-hdr-' + this.id;
       }
-      this._renderer.setElementAttribute(this._elementRef.nativeElement, 'aria-describedby', header.id);
+      this._renderer.setAttribute(this._elementRef.nativeElement, 'aria-describedby', header.id);
     }
   }
 

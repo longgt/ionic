@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, ComponentRef, ElementRef, NgZone, Renderer, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, ComponentRef, ElementRef, NgZone, Renderer2, ViewContainerRef } from '@angular/core';
 import { Location } from '@angular/common';
 
 import { AnimationOptions } from '../animations/animation';
@@ -348,7 +348,7 @@ export class MockRenderer {
   }
 }
 
-export function mockRenderer(): Renderer {
+export function mockRenderer(): Renderer2 {
   const renderer: any = new MockRenderer();
   return renderer;
 }

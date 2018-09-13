@@ -1,4 +1,4 @@
-import { ContentChildren, Directive, ElementRef, Inject, Optional, Renderer, forwardRef } from '@angular/core';
+import { ContentChildren, Directive, ElementRef, Inject, Optional, Renderer2, forwardRef } from '@angular/core';
 
 import { Button } from '../button/button';
 import { Config } from '../../config/config';
@@ -19,7 +19,7 @@ export class ToolbarItem extends Ion {
   constructor(
     config: Config,
     elementRef: ElementRef,
-    renderer: Renderer,
+    renderer: Renderer2,
     @Optional() toolbar: Toolbar,
     @Optional() @Inject(forwardRef(() => Navbar)) navbar: Navbar
   ) {

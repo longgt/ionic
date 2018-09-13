@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ContentChild, ContentChildren, ElementRef,  Optional, QueryList, Renderer, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, ContentChildren, ElementRef,  Optional, QueryList, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 
 import { Button } from '../button/button';
 import { Config } from '../../config/config';
@@ -315,7 +315,7 @@ export class Item extends Ion {
     form: Form,
     config: Config,
     elementRef: ElementRef,
-    renderer: Renderer,
+    renderer: Renderer2,
     @Optional() reorder: ItemReorder
   ) {
     super(config, elementRef, renderer, 'item');
@@ -328,11 +328,13 @@ export class Item extends Ion {
     // auto add "tappable" attribute to ion-item components that have a click listener
     if (!(<any>renderer).orgListen) {
       (<any>renderer).orgListen = renderer.listen;
-      renderer.listen = function(renderElement: HTMLElement, name: string, callback: Function): Function {
-        if (name === 'click' && renderElement.setAttribute) {
-          renderElement.setAttribute('tappable', '');
+      renderer.listen = function(target: 'window' | 'document' | 'body' | any, eventName: string, callback: (event: any) => boolean | void): () => void {
+        if (eventName === 'click' && target && target.setAttribute) {
+          try {
+            target.setAttribute('tappable', '');
+          } catch (e) {}
         }
-        return (<any>renderer).orgListen(renderElement, name, callback);
+        return (<any>renderer).orgListen(target, eventName, callback);
       };
     }
   }

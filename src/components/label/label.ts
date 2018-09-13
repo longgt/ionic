@@ -1,4 +1,4 @@
-import { Attribute, Directive, ElementRef, Input, Renderer } from '@angular/core';
+import { Attribute, Directive, ElementRef, Input, Renderer2 } from '@angular/core';
 
 import { Config } from '../../config/config';
 import { Ion } from '../ion';
@@ -68,7 +68,7 @@ export class Label extends Ion {
   constructor(
     config: Config,
     elementRef: ElementRef,
-    renderer: Renderer,
+    renderer: Renderer2,
     @Attribute('floating') isFloating: string,
     @Attribute('stacked') isStacked: string,
     @Attribute('fixed') isFixed: string,

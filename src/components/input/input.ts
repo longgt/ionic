@@ -6,7 +6,7 @@ import {
   Input,
   Optional,
   Output,
-  Renderer,
+  Renderer2,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -260,7 +260,7 @@ export class TextInput extends BaseInput<string> implements IonicFormInput {
     _form: Form,
     private _app: App,
     elementRef: ElementRef,
-    renderer: Renderer,
+    renderer: Renderer2,
     @Optional() private _content: Content,
     @Optional() _item: Item,
     @Optional() public ngControl: NgControl,

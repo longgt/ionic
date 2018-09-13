@@ -9,7 +9,7 @@ import {
   Optional,
   Output,
   QueryList,
-  Renderer,
+  Renderer2,
   ViewEncapsulation,
   forwardRef } from '@angular/core';
 
@@ -193,7 +193,7 @@ export class ItemSliding {
   constructor(
     @Optional() list: List,
     private _plt: Platform,
-    private _renderer: Renderer,
+    private _renderer: Renderer2,
     private _elementRef: ElementRef,
     private _zone: NgZone
   ) {
@@ -445,6 +445,10 @@ export class ItemSliding {
    * @hidden
    */
   setElementClass(cssClass: string, shouldAdd: boolean) {
-    this._renderer.setElementClass(this._elementRef.nativeElement, cssClass, shouldAdd);
+    if (shouldAdd) {
+      this._renderer.addClass(this._elementRef.nativeElement, cssClass);
+    } else {
+      this._renderer.removeClass(this._elementRef.nativeElement, cssClass);
+    }
   }
 }

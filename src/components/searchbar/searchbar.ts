@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Optional, Output, Renderer, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Optional, Output, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 import { Config } from '../../config/config';
@@ -160,7 +160,7 @@ export class Searchbar extends BaseInput<string> {
     config: Config,
     private _plt: Platform,
     elementRef: ElementRef,
-    renderer: Renderer,
+    renderer: Renderer2,
     @Optional() ngControl: NgControl
   ) {
     super(config, elementRef, renderer, 'searchbar', '', null, null, ngControl);
@@ -360,7 +360,8 @@ export class Searchbar extends BaseInput<string> {
   }
 
   setFocus() {
-    this._renderer.invokeElementMethod(this._searchbarInput.nativeElement, 'focus');
+    if (this._searchbarInput.nativeElement) {
+      this._searchbarInput.nativeElement.focus();
+    }
   }
-
 }

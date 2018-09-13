@@ -1,4 +1,4 @@
-import { ComponentRef, ElementRef, EventEmitter, Output, Renderer } from '@angular/core';
+import { ComponentRef, ElementRef, EventEmitter, Output, Renderer2 } from '@angular/core';
 
 import { assert, isPresent } from '../util/util';
 import { NavController } from './nav-controller';
@@ -270,7 +270,7 @@ export class ViewController {
    * @hidden
    * DOM WRITE
    */
-  _domShow(shouldShow: boolean, renderer: Renderer) {
+  _domShow(shouldShow: boolean, renderer: Renderer2) {
     // using hidden element attribute to display:none and not render views
     // _hidden value of '' means the hidden attribute will be added
     // _hidden value of null means the hidden attribute will be removed
@@ -280,7 +280,11 @@ export class ViewController {
       this._isHidden = !shouldShow;
       let value = (shouldShow ? null : '');
       // ******** DOM WRITE ****************
-      renderer.setElementAttribute(this.pageRef().nativeElement, 'hidden', value);
+      if (shouldShow) {
+        renderer.removeAttribute(this.pageRef().nativeElement, 'hidden');
+      } else {
+        renderer.setAttribute(this.pageRef().nativeElement, 'hidden', value);
+      }
     }
   }
 
@@ -295,13 +299,13 @@ export class ViewController {
    * @hidden
    * DOM WRITE
    */
-  _setZIndex(zIndex: number, renderer: Renderer) {
+  _setZIndex(zIndex: number, renderer: Renderer2) {
     if (zIndex !== this._zIndex) {
       this._zIndex = zIndex;
       const pageRef = this.pageRef();
       if (pageRef) {
         // ******** DOM WRITE ****************
-        renderer.setElementStyle(pageRef.nativeElement, 'z-index', (<any>zIndex));
+        renderer.setStyle(pageRef.nativeElement, 'z-index', (<any>zIndex));
       }
     }
   }
@@ -530,7 +534,7 @@ export class ViewController {
    * @hidden
    * DOM WRITE
    */
-  _destroy(renderer: Renderer) {
+  _destroy(renderer: Renderer2) {
     assert(this._state !== STATE_DESTROYED, 'view state must be ATTACHED');
 
     if (this._cmp) {
@@ -538,8 +542,8 @@ export class ViewController {
         // ensure the element is cleaned up for when the view pool reuses this element
         // ******** DOM WRITE ****************
         var cmpEle = this._cmp.location.nativeElement;
-        renderer.setElementAttribute(cmpEle, 'class', null);
-        renderer.setElementAttribute(cmpEle, 'style', null);
+        renderer.removeAttribute(cmpEle, 'class');
+        renderer.removeAttribute(cmpEle, 'style');
       }
 
       window.removeEventListener('orientationchange', this.handleOrientationChange.bind(this));

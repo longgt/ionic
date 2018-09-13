@@ -1,4 +1,4 @@
-import { ContentChildren, Directive, ElementRef, EventEmitter, Input, NgZone, Output, QueryList, Renderer, forwardRef } from '@angular/core';
+import { ContentChildren, Directive, ElementRef, EventEmitter, Input, NgZone, Output, QueryList, Renderer2, forwardRef } from '@angular/core';
 import { Ion } from '../ion';
 import { assert, isTrueProperty } from '../../util/util';
 import { Config } from '../../config/config';
@@ -214,7 +214,7 @@ export class SplitPane extends Ion implements RootNode {
     private _plt: Platform,
     config: Config,
     elementRef: ElementRef,
-    renderer: Renderer
+    renderer: Renderer2
   ) {
     super(config, elementRef, renderer, 'split-pane');
   }
@@ -319,7 +319,11 @@ export class SplitPane extends Ion implements RootNode {
    * @hidden
    */
   setElementClass(className: string, add: boolean) {
-    this._renderer.setElementClass(this._elementRef.nativeElement, className, add);
+    if (add) {
+      this._renderer.addClass(this._elementRef.nativeElement, className);
+    } else {
+      this._renderer.removeClass(this._elementRef.nativeElement, className);
+    }
   }
 
   /**
@@ -327,8 +331,13 @@ export class SplitPane extends Ion implements RootNode {
    */
   _setPaneCSSClass(elementRef: ElementRef, isMain: boolean) {
     const ele = elementRef.nativeElement;
-    this._renderer.setElementClass(ele, 'split-pane-main', isMain);
-    this._renderer.setElementClass(ele, 'split-pane-side', !isMain);
+    if (isMain) {
+      this._renderer.addClass(ele, 'split-pane-main');
+      this._renderer.removeClass(ele, 'split-pane-side');
+    } else {
+      this._renderer.removeClass(ele, 'split-pane-main');
+      this._renderer.addClass(ele, 'split-pane-side');
+    }
   }
 
   /**
