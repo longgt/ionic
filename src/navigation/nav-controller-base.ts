@@ -4,9 +4,9 @@ import {
   ElementRef,
   ErrorHandler,
   EventEmitter,
+  Injector,
   Input,
   NgZone,
-  Injector,
   Renderer,
   ViewContainerRef
 } from '@angular/core';

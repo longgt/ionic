@@ -404,7 +404,7 @@ export class TextInput extends BaseInput<string> implements IonicFormInput {
     // TODO: deprecate this
     this.input.emit(ev);
   }
-  
+
   /**
    * @hidden
    */
